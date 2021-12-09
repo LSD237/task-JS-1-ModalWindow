@@ -16,5 +16,19 @@ block content
             a(href='' rel='chapter') Кнопка 1
             a(href='' rel='chapter') Кнопка 2
           .blockWithModalWindow
-            .modalWindow Окно
+            //модальное окно
+            .vmodal Окно
+              // элемент для замемнения всего контента
+              .modal-overlay
+                .modal-window
+                  .modal-header
+                    span.modal-title Modal title
+                    span.modal-close &times;
+                  .modal-body
+                    p Lorem ipsum dolor sit.
+                    p Lorem ipsum dolor sit.
+                  .modal-footer
+                    button Ok
+                    button Cancel
+          a(href='second.html' rel='chapter') Вторая страничка
     // / секция home

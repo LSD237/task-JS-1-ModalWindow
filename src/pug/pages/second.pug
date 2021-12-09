@@ -1,0 +1,17 @@
+extends ../layout/main
+
+block variables
+  - var title = 'Second page of Modal window task'
+  - var pageClass = 'Second-page'
+
+block content
+  main
+    section.Second_sectionHome#Second
+      .container
+        .Second_blockWithContentHome
+          h1 Вторая страничка
+          p.
+            Все это не зря, все это нужно,
+            даже если ты этого до конца не понимаешь, 
+            просто верь!
+          a(href='index.html' rel='chapter') Первая страничка

@@ -1,0 +1,38 @@
+.modal-overlay { // элемент затемнения
+  position: fixed;
+  // чтобы элемент был на весь экран
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .5);
+  .modal-window { // само модальное окно
+    width: 600px;
+    border-radius: 5px;
+    background: #fff;
+    margin: 100px auto;
+    .modal-header { //разкидывает по разным углам заголовок и крестик
+      padding: 5px 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.5rem;
+      border-bottom: 1px solid #eee;
+      .modal-close {
+        // outline: 2px solid #666;
+        outline: 1px solid #eee;
+        padding: 0 5px;
+        cursor: pointer;
+      }
+    }
+    .modal-body {
+      padding: 10px;
+      p {
+        margin: 0 0 5px;
+      }
+    }
+    .modal-footer {
+      padding: 5px 10px;
+      border-top: 1px solid #eee;
+    }
+  }
+}

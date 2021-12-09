@@ -64,7 +64,6 @@ module.exports = {
           pretty: true
         }
       },
-      //*нов для слайдера
       {
         test: /\.css$/,
         // loader: 'css-loader',
@@ -76,7 +75,6 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|svg|gif)$/,
-        // use: ['file-loader']
         loader: 'file-loader',
         options: {
           name: '[path][name].[ext]',
@@ -84,7 +82,6 @@ module.exports = {
       },
       {
         test: /\.(ttf|woff|woff2|eot)$/,
-        // use: ['file-loader']
         loader: 'file-loader',
         options: {
           name: '[path][name].[ext]',
@@ -95,7 +92,12 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       // template: './index.html'
+      filename: 'index.html',
       template: './pug/pages/index.pug'
+    }),
+    new HTMLWebpackPlugin({
+      filename: 'second.html',
+      template: './pug/pages/second.pug'
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
