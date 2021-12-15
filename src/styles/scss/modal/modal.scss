@@ -1,3 +1,36 @@
+//скрывает существующее модальное окно
+.modal-window, .modal-overlay {
+  opacity: 0;
+  z-index: -1;
+}
+//если у элемента vmodal есть класс open - показыается модальное окно
+.vmodal.open .modal-overlay,
+.vmodal.open .modal-window {
+  opacity: 1;
+  z-index: 1000;
+}
+//при анимации исчезновения нужны стили отображения окна
+.vmodal.hide .modal-overlay,
+.vmodal.hide .modal-window {
+  opacity: 1;
+  z-index: 1000;
+}
+//анимация
+.vmodal.open .modal-window {
+  transform: translateY(100px);
+}
+.vmodal.open .modal-overlay {
+  background: rgba(0, 0, 0, .5);
+}
+//анимация исчезновения
+.vmodal.hide .modal-window {
+  transform: translateY(-200px);
+}
+.vmodal.hide .modal-overlay {
+  background: rgba(0, 0, 0, 0);
+}
+
+
 .modal-overlay { // элемент затемнения
   position: fixed;
   // чтобы элемент был на весь экран
@@ -5,12 +38,17 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, .5);
+  // background: rgba(0, 0, 0, .5); //базовый стиль фона модалки
+  background: rgba(0, 0, 0, 0);
+  transition: background .2s ease-in;
   .modal-window { // само модальное окно
     width: 600px;
     border-radius: 5px;
     background: #fff;
-    margin: 100px auto;
+    // margin: 100px auto; //изначальное/базовое положение окна
+    margin: 0 auto;
+    transform: translateY(-200px); //убираем окно в начало анимации
+    transition: transform .2s ease-in;
     .modal-header { //разкидывает по разным углам заголовок и крестик
       padding: 5px 10px;
       display: flex;
@@ -18,7 +56,6 @@
       font-size: 1.5rem;
       border-bottom: 1px solid #eee;
       .modal-close {
-        // outline: 2px solid #666;
         outline: 1px solid #eee;
         padding: 0 5px;
         cursor: pointer;
