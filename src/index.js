@@ -11,7 +11,7 @@ import './plugins/modal.js'
 // console.log(objOne.name) //Bill
 
 //Реализация(использование) основного функционала модального окна
-const modal = $.modal()
+// const modal = $.modal()
 
-modal.open()
+// modal.open()
 // modal.close()

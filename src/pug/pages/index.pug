@@ -13,8 +13,8 @@ block content
           h1 Создание модального окна
           p Тут будет небольшое описание
           .wrapperButtonsHome 
-            a(href='' rel='chapter') Кнопка 1
-            a(href='' rel='chapter') Кнопка 2
+            //- a(href='' rel='chapter') Кнопка 1
+            button#openModal Открыть модальное окно
           .blockWithModalWindow
             //модальное окно
             //- .vmodal Окно
@@ -30,4 +30,26 @@ block content
             //-       .modal-footer
             //-         button Ok
             //-         button Cancel
+          .row
+            .col
+              .card
+                img(src="https://st.depositphotos.com/1020804/2370/i/600/depositphotos_23706663-stock-photo-red-apple-with-leaf-and.jpg", alt="яблоки")
+                .card-body
+                  h5.card-title Яблоки
+                  a(href="#").btn.btn-primary Посмотреть цену
+                  a(href="#").btn.btn-danger Удалить
+            .col
+              .card
+                img(src="https://static-sl.insales.ru/images/products/1/583/434774599/imgonline-com-ua-Compressed-4rwDeDKaNHjtoyg.jpg", alt="апельсины")
+                .card-body
+                  h5.card-title Апельсины
+                  a(href="#").btn.btn-primary Посмотреть цену
+                  a(href="#").btn.btn-danger Удалить
+            .col
+              .card
+                img(src="https://nebanan.com.ua/wp-content/uploads/2019/11/dizajn-bez-nazvaniya-29-e1602670749739.jpg", alt="манго")
+                .card-body
+                  h5.card-title Манго
+                  a(href="#").btn.btn-primary Посмотреть цену
+                  a(href="#").btn.btn-danger Удалить
     // / секция home

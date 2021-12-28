@@ -30,6 +30,31 @@
   background: rgba(0, 0, 0, 0);
 }
 
+//стили кнопок модалки
+.btn {
+  font-weight: bold;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  cursor: pointer;
+  transition: .2s;
+  &.btn-primary {
+    border-color: rgb(3, 219, 3);
+    background-color: rgb(3, 175, 3);
+    &:hover {
+      background-color: rgb(3, 219, 3);
+    }
+  }
+  &.btn-danger {
+    border-color: rgb(255, 0, 0);
+    background-color: rgb(214, 0, 0);
+    &:hover {
+      background-color: rgb(255, 0, 0);
+    }
+  }
+}
 
 .modal-overlay { // элемент затемнения
   position: fixed;
@@ -42,7 +67,7 @@
   background: rgba(0, 0, 0, 0);
   transition: background .2s ease-in;
   .modal-window { // само модальное окно
-    width: 600px;
+    // width: 600px; //задается в JS
     border-radius: 5px;
     background: #fff;
     // margin: 100px auto; //изначальное/базовое положение окна
@@ -70,6 +95,50 @@
     .modal-footer {
       padding: 5px 10px;
       border-top: 1px solid #eee;
+    }
+  }
+}
+
+//карточки фруктов
+.row {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  .col {
+    max-width: 400px;
+    border: rgb(187, 185, 185) 1px solid;
+    border-radius: 5px;
+    .card {
+      margin: 0 15px;
+      img {
+        width: 300px;
+        height: 250px;
+        padding: 10px;
+      }
+      .card-body {
+        margin-bottom: 30px;
+        h5 {
+          font-size: 20px;
+          padding: 5px;
+          margin: 0 0 20px;
+        }
+        a {
+          padding: 10px 15px;
+          font-size: 18px;
+          text-decoration: none;
+          color: black;
+        }
+        .btn {
+          color: white;
+          border: none;
+        }
+        .btn-primary {
+          background: rgb(0, 102, 197);
+          &:hover {
+            background: rgb(0, 132, 255);
+          }
+        }
+      }
     }
   }
 }
