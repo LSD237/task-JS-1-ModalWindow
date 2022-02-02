@@ -1,10 +1,12 @@
 //плагин
 import { $ } from '../base.js'
 
-const fruits = [
+let fruits = [
   { id: 1, title: 'Яблоки', price: 20, img: 'https://st.depositphotos.com/1020804/2370/i/600/depositphotos_23706663-stock-photo-red-apple-with-leaf-and.jpg' },
   { id: 2, title: 'Апельсины', price: 30, img: 'https://static-sl.insales.ru/images/products/1/583/434774599/imgonline-com-ua-Compressed-4rwDeDKaNHjtoyg.jpg' },
-  { id: 3, title: 'Манго', price: 40, img: 'https://nebanan.com.ua/wp-content/uploads/2019/11/dizajn-bez-nazvaniya-29-e1602670749739.jpg' }
+  { id: 3, title: 'Манго', price: 40, img: 'https://nebanan.com.ua/wp-content/uploads/2019/11/dizajn-bez-nazvaniya-29-e1602670749739.jpg' },
+  { id: 4, title: 'Виноград', price: 50, img: 'https://foodcity.ru/storage/products/October2018/dSTg1Wk44PJACMVYH1Z5.jpg' },
+  { id: 5, title: 'Арбуз', price: 60, img: 'https://fruktlove.ru/wp-content/uploads/2019/03/arbuz-krasnyj.jpg' }
 ]
 
 
@@ -76,7 +78,7 @@ $.modal = function (options) {
       if (destroyed) {
         return console.log("Modal is destroyed")
       }
-      !closing && $modal.classList.add('open') //если "закрыто" не создавать окно
+      !closing && $modal.classList.add('open') //если "закрыто" и нет класса "open" не создавать окно
     },
     close() {
       closing = true
@@ -85,11 +87,14 @@ $.modal = function (options) {
       setTimeout(() => {
         $modal.classList.remove('hide')
         closing = false //удаляется за ненадобностью(окно исчезло, класс анимации исчезновения не нужен при "переиспользовании")
+        if (typeof options.onClose === 'function') {
+          options.onClose()
+        }
       }, ANIMATION_SPEED)
     }
   }
 
-  const listenr = event => {
+  const listener = event => {
     //*удобно
     //можем посмотреть "кликнутое", есть "dataset"(дата атрибуты на которые удобно назначать слушатель)
     //мы задавали в html дата атрибут "data-close", т.е. его и смотрим - "close"
@@ -99,7 +104,7 @@ $.modal = function (options) {
     }
   }
 
-  $modal.addEventListener('click', listenr)
+  $modal.addEventListener('click', listener) //если нажат элемент с дата-атрибутом 'close' модалка закрывается
 
   return Object.assign(modal, {
     destroy() {
@@ -115,41 +120,90 @@ $.modal = function (options) {
 }
 
 
-const modal = $.modal({
-  title: "Модалочка",
+const priceModal = $.modal({
+  title: "Цена на товар",
   closable: true,
-  content: `
-    <h4>Modal is working</h4>
-    <p>Текст в работающем окне</p>
-  `,
+  // content: `
+  //   <h4>Modal is working</h4>
+  //   <p>Текст в работающем окне</p>
+  // `,
   width: "400px",
   footerButtons: [
     {
-      //ХЗ по поводу type: 'primary' т.к. это стили будстрап(нужны свои)
-      text: 'Ok', type: 'primary', handler() {
-        console.log("Primary btn clicked")
-        modal.close()
-      }
-    },
-    {
-      text: 'Cancel', type: 'danger', handler() {
-        console.log("Danger btn clicked")
-        modal.close()
+      text: 'Закрыть', type: 'primary', handler() {
+        priceModal.close()
       }
     }
   ]
 })
 
-modal.open()
-modal.setContent('<p>Датути, это собсна модалочка... нате - распишитесь!</p>')
+const toHTML = fruit => `
+  <div class="col">
+    <div class="card">
+      <img src="${fruit.img}" alt="${fruit.title}">
+      <div class="card-body">
+        <h5 class="card-title">${fruit.title}</h5>
+        <a class="btn btn-primary" data-btn="price" data-id="${fruit.id}" href="#">Посмотреть цену</a>
+        <a class="btn btn-danger" data-btn="remove" data-id="${fruit.id}" href="#">Удалить</a>
+      </div>
+    </div>
+  </div>
+`
+//динамическое добавление карточек с продуктами
+function render() {
+  //массив из html строк(шаблонов) соединяется через пустую строку
+  const html = fruits.map(fruit => toHTML(fruit)).join('')
+  document.querySelector('#fruits').innerHTML = html
+}
 
-//!
+render()
 
-/*
-  1. Динамически на основе массива(fruits) вывести список карточек
-  2. Показать цену в модалке (и это должна быть 1 модалка)
-*/
+document.addEventListener('click', event => {
+  event.preventDefault() //чтобы при клике в адреской строке не выводился "#" (не менялась адресная строка)
+  const btnType = event.target.dataset.btn
+  //* присваивается строка дата-атрибута (чтобы далее использовать это значение в методе ".find()" оно преобразовывается в число с помощью "+")
+  const id = +event.target.dataset.id
+  const fruit = fruits.find(f => f.id === id)
 
-// openModal.addEventListener('click', function (event) {
-//   modal.open()
-// })
+  if (btnType === 'price') {
+    priceModal.setContent(`<p>Цена на ${fruit.title}: <strong>${fruit.price}руб.</strong></p>`)
+    priceModal.open()
+  } else if (btnType === 'remove') {
+    $.confirm({
+      title: 'Вы уверены?',
+      content: `<p>Вы удаляете: <strong>${fruit.title}</strong></p>`
+    }).then(() => {
+      fruits = fruits.filter(f => f.id !== id)
+      render()
+    }).catch(() => {
+      console.log('Cancel')
+    })
+  }
+})
+
+//**************************************** */
+const toHtmlForGroceryList = fruit => `
+  <p>${fruit.title}: <strong>${fruit.price} руб.</strong></p>
+`
+
+let htmlGroceryList = fruits.map(fruit => toHtmlForGroceryList(fruit)).join('')
+
+const modalGroceryList = $.modal({
+  title: 'Перечень продуктов',
+  closable: true,
+  width: '400px',
+  content: `
+    <div>${htmlGroceryList}</div>
+  `,
+  footerButtons: [
+    {
+      text: 'Закрыть', type: 'primary', handler() {
+        modalGroceryList.close()
+      }
+    }
+  ]
+})
+
+groceryList.addEventListener('click', event => {
+  modalGroceryList.open()
+})

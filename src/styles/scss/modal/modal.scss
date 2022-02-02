@@ -102,12 +102,13 @@
 //карточки фруктов
 .row {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   justify-content: space-around;
   .col {
     max-width: 400px;
     border: rgb(187, 185, 185) 1px solid;
     border-radius: 5px;
+    margin: 15px;
     .card {
       margin: 0 15px;
       img {

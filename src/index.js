@@ -3,6 +3,7 @@ import '@styles/scss/modal/modal.scss'
 // import './base.js'
 import { $ } from './base.js'
 import './plugins/modal.js'
+import './plugins/confirm.js'
 
 // import './test.js'
 // import { sayHi } from './test.js'
