@@ -1,14 +1,5 @@
-//плагин
+//плагин (основной функционал модального окна)
 import { $ } from '../base.js'
-
-let fruits = [
-  { id: 1, title: 'Яблоки', price: 20, img: 'https://st.depositphotos.com/1020804/2370/i/600/depositphotos_23706663-stock-photo-red-apple-with-leaf-and.jpg' },
-  { id: 2, title: 'Апельсины', price: 30, img: 'https://static-sl.insales.ru/images/products/1/583/434774599/imgonline-com-ua-Compressed-4rwDeDKaNHjtoyg.jpg' },
-  { id: 3, title: 'Манго', price: 40, img: 'https://nebanan.com.ua/wp-content/uploads/2019/11/dizajn-bez-nazvaniya-29-e1602670749739.jpg' },
-  { id: 4, title: 'Виноград', price: 50, img: 'https://foodcity.ru/storage/products/October2018/dSTg1Wk44PJACMVYH1Z5.jpg' },
-  { id: 5, title: 'Арбуз', price: 60, img: 'https://fruktlove.ru/wp-content/uploads/2019/03/arbuz-krasnyj.jpg' }
-]
-
 
 Element.prototype.appendAfter = function (element) { //element это modal-body
   //this это футер. 
@@ -119,91 +110,21 @@ $.modal = function (options) {
   })
 }
 
-
-const priceModal = $.modal({
-  title: "Цена на товар",
-  closable: true,
-  // content: `
-  //   <h4>Modal is working</h4>
-  //   <p>Текст в работающем окне</p>
-  // `,
-  width: "400px",
-  footerButtons: [
-    {
-      text: 'Закрыть', type: 'primary', handler() {
-        priceModal.close()
-      }
-    }
-  ]
-})
-
-const toHTML = fruit => `
+const toHTML = i => `
   <div class="col">
     <div class="card">
-      <img src="${fruit.img}" alt="${fruit.title}">
+      <img src="${i.img}" alt="${i.title}">
       <div class="card-body">
-        <h5 class="card-title">${fruit.title}</h5>
-        <a class="btn btn-primary" data-btn="price" data-id="${fruit.id}" href="#">Посмотреть цену</a>
-        <a class="btn btn-danger" data-btn="remove" data-id="${fruit.id}" href="#">Удалить</a>
+        <h5 class="card-title">${i.title}</h5>
+        <a class="btn btn-primary" data-btn="price" data-id="${i.id}" href="#">Посмотреть цену</a>
+        <a class="btn btn-danger" data-btn="remove" data-id="${i.id}" href="#">Удалить</a>
       </div>
     </div>
   </div>
 `
 //динамическое добавление карточек с продуктами
-function render() {
+$.render = function (array, id) {
   //массив из html строк(шаблонов) соединяется через пустую строку
-  const html = fruits.map(fruit => toHTML(fruit)).join('')
-  document.querySelector('#fruits').innerHTML = html
+  const html = array.map(i => toHTML(i)).join('')
+  document.querySelector(id).innerHTML = html
 }
-
-render()
-
-document.addEventListener('click', event => {
-  event.preventDefault() //чтобы при клике в адреской строке не выводился "#" (не менялась адресная строка)
-  const btnType = event.target.dataset.btn
-  //* присваивается строка дата-атрибута (чтобы далее использовать это значение в методе ".find()" оно преобразовывается в число с помощью "+")
-  const id = +event.target.dataset.id
-  const fruit = fruits.find(f => f.id === id)
-
-  if (btnType === 'price') {
-    priceModal.setContent(`<p>Цена на ${fruit.title}: <strong>${fruit.price}руб.</strong></p>`)
-    priceModal.open()
-  } else if (btnType === 'remove') {
-    $.confirm({
-      title: 'Вы уверены?',
-      content: `<p>Вы удаляете: <strong>${fruit.title}</strong></p>`
-    }).then(() => {
-      fruits = fruits.filter(f => f.id !== id)
-      render()
-    }).catch(() => {
-      console.log('Cancel')
-    })
-  }
-})
-
-//**************************************** */
-const toHtmlForGroceryList = fruit => `
-  <p>${fruit.title}: <strong>${fruit.price} руб.</strong></p>
-`
-
-let htmlGroceryList = fruits.map(fruit => toHtmlForGroceryList(fruit)).join('')
-
-const modalGroceryList = $.modal({
-  title: 'Перечень продуктов',
-  closable: true,
-  width: '400px',
-  content: `
-    <div>${htmlGroceryList}</div>
-  `,
-  footerButtons: [
-    {
-      text: 'Закрыть', type: 'primary', handler() {
-        modalGroceryList.close()
-      }
-    }
-  ]
-})
-
-groceryList.addEventListener('click', event => {
-  modalGroceryList.open()
-})

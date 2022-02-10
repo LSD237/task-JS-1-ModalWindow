@@ -34,7 +34,16 @@ const sourceMap = () => {
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
-  entry: './index.js',
+  // entry: './index.js',
+  // output: {
+  //   filename: filename('js'),
+  //   path: path.resolve(__dirname, 'dist'),
+  //   publicPath: ''
+  // },
+  entry: {
+    home: './index.js',
+    second: './secondPage.js'
+  },
   output: {
     filename: filename('js'),
     path: path.resolve(__dirname, 'dist'),
@@ -93,11 +102,13 @@ module.exports = {
     new HTMLWebpackPlugin({
       // template: './index.html'
       filename: 'index.html',
-      template: './pug/pages/index.pug'
+      template: './pug/pages/index.pug',
+      excludeChunks: ['./src/secondPage.js']
     }),
     new HTMLWebpackPlugin({
       filename: 'second.html',
-      template: './pug/pages/second.pug'
+      template: './pug/pages/second.pug',
+      excludeChunks: ['./src/plugins/fruits.js']
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({

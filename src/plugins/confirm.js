@@ -1,5 +1,4 @@
 import { $ } from '../base.js'
-// import './modal.js'
 
 //подтверждение. 
 $.confirm = function (options) {
@@ -27,7 +26,6 @@ $.confirm = function (options) {
         }
       ]
     })
-
     //т.к. этот блок выполняется асинхронно, анимация пропадает. Делаем "искуственную" задержку(фикс)
     setTimeout(() => modal.open(), 100)
   })
