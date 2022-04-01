@@ -2,14 +2,28 @@
 @import "header/header.scss";
 
 // body {
-  // background-color: rgb(27, 27, 27);
-  // color: wheat;
+// background-color: rgb(27, 27, 27);
+// color: wheat;
 // }
 
 .container {
   max-width: 1600px;
   margin: 0 auto;
+
+  .blockWithContentHome {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+
+    h1,
+    .textP {
+      text-align: center;
+      padding: 0 10px;
+    }
+  }
 }
+
 // .section-home {
 //   text-align: center;
 // }

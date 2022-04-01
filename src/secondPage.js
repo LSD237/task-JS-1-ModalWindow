@@ -1,8 +1,10 @@
+import '@styles/scss/styles.scss'
+import '@styles/scss/modal/modal.scss'
 import { $ } from './base.js'
 import './plugins/modal.js'
 import './plugins/confirm.js'
-console.log('second Page')
 
+console.log('second Page')
 
 let cars = [
   { id: 1, title: 'BMW', price: 3000000, img: 'https://s.auto.drom.ru/photo/VYSNVRTJuris1ic5pN6jLWQKLaMDa7LmQ_h0Z0-0bpKaKNmEl_T9WpgjYKjRM91xzuqqSuNq45f-culU68Xy3OrGorPWfZKhuKfSIZzqzNJhzu1y9wQ.jpg' },
@@ -11,7 +13,7 @@ let cars = [
   { id: 4, title: 'Toyota', price: 1900000, img: 'https://avtonam.ru/wp-content/uploads/2016/09/toyota-land-cruiser-200-black-met.jpg' }
 ]
 
-let modalCarCard = $.modal({
+const modalCarCard = $.modal({
   title: 'Стоимость автомобиля',
   closable: true,
   width: '400px',
@@ -24,26 +26,24 @@ let modalCarCard = $.modal({
   ]
 })
 
-if (document.getElementById('Second')) {
-  Second.addEventListener('click', event => {
-    event.preventDefault()
-    const id = +event.target.dataset.id
-    const btnType = event.target.dataset.btn
-    const car = cars.find(c => c.id === id)
+Second.addEventListener('click', event => {
+  event.preventDefault()
+  const id = +event.target.dataset.id
+  const btnType = event.target.dataset.btn
+  const car = cars.find(c => c.id === id)
 
-    if (btnType === 'price') {
-      modalCarCard.setContent(`<p>Цена автомобиля ${car.title}: <strong>${car.price} руб.</strong> </p>`)
-      modalCarCard.open()
-    } else if (btnType === 'remove') {
-      $.confirm({
-        title: 'Вы уверены?',
-        content: `<p>Вы удаляете: <strong>${car.title}</strong></p>`
-      }).then(() => {
-        cars = cars.filter(c => c.id !== id)
-        $.render(cars, '#cars')
-      }).catch((err) => console.log(err))
-    }
-  })
+  if (btnType === 'price') {
+    modalCarCard.setContent(`<p>Цена автомобиля ${car.title}: <strong>${car.price} руб.</strong> </p>`)
+    modalCarCard.open()
+  } else if (btnType === 'remove') {
+    $.confirm({
+      title: 'Вы уверены?',
+      content: `<p>Вы удаляете: <strong>${car.title}</strong></p>`
+    }).then(() => {
+      cars = cars.filter(c => c.id !== id)
+      $.render(cars, '#cars')
+    }).catch((err) => console.log(err))
+  }
+})
 
-  $.render(cars, '#cars')
-}
+$.render(cars, '#cars')

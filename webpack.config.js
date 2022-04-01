@@ -13,7 +13,11 @@ const isProd = !isDev
 const filename = ext => isDev ? `[name].${ext}` : `[name].[fullhash].${ext}`
 
 const optimization = () => {
-  const config = {}
+  const config = {
+    splitChunks: {
+      chunks: 'all'
+    }
+  }
 
   if (isProd) {
     config.minimizer = [
@@ -41,8 +45,9 @@ module.exports = {
   //   publicPath: ''
   // },
   entry: {
-    home: './index.js',
-    second: './secondPage.js'
+    index: ['./index.js'],
+    second: ['./secondPage.js'],
+    third: ['./thirdPage.js']
   },
   output: {
     filename: filename('js'),
@@ -103,12 +108,17 @@ module.exports = {
       // template: './index.html'
       filename: 'index.html',
       template: './pug/pages/index.pug',
-      excludeChunks: ['./src/secondPage.js']
+      chunks: ['index']
     }),
     new HTMLWebpackPlugin({
       filename: 'second.html',
       template: './pug/pages/second.pug',
-      excludeChunks: ['./src/plugins/fruits.js']
+      chunks: ['second']
+    }),
+    new HTMLWebpackPlugin({
+      filename: 'third.html',
+      template: './pug/pages/third.pug',
+      chunks: ['third']
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({

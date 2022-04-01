@@ -1,12 +1,12 @@
 //плагин (основной функционал модального окна)
 import { $ } from '../base.js'
 
-Element.prototype.appendAfter = function (element) { //element это modal-body
-  //this это футер. 
-  element.parentNode.insertBefore(this, element.nextSibling)
+//(element) это тот эл-т после которого вставляется то, что в теле ф-ии
+Element.prototype.appendAfter = function (element) {
+  element.parentNode.insertBefore(this, element.nextSibling) //со стековерфлоу
 }
 
-function noop() { }
+function noop() { }//если по какой-то причине не передался обработчик handler
 
 function _createModalFooter(buttons = []) {
   if (buttons.length === 0) {  //если нету кнопок
@@ -69,7 +69,8 @@ $.modal = function (options) {
       if (destroyed) {
         return console.log("Modal is destroyed")
       }
-      !closing && $modal.classList.add('open') //если "закрыто" и нет класса "open" не создавать окно
+      //(если окно не закрыто т.е. true - добавляем класс)
+      !closing && $modal.classList.add('open')
     },
     close() {
       closing = true
@@ -100,6 +101,7 @@ $.modal = function (options) {
   return Object.assign(modal, {
     destroy() {
       //? (обычное) удаление дом-узла из дом-дерева
+      //parentNode-находит родителя у которого removeChild-удаляет дочерний эл-т, сам $modal
       $modal.parentNode.removeChild($modal)
       destroyed = true
     },

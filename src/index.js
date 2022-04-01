@@ -31,32 +31,30 @@ const priceModal = $.modal({
   ]
 })
 
-if (document.getElementById('Home')) {
-  Home.addEventListener('click', event => {
-    //! этот метод отменяет дефолтное поведение(ссылки перестают работать)
-    event.preventDefault() //чтобы при клике в адреской строке не выводился "#" (не менялась адресная строка)
-    const btnType = event.target.dataset.btn
-    //* присваивается строка дата-атрибута (чтобы далее использовать это значение в методе ".find()" оно преобразовывается в число с помощью "+")
-    const id = +event.target.dataset.id
-    const fruit = fruits.find(f => f.id === id)
+Home.addEventListener('click', event => {
+  //! этот метод отменяет дефолтное поведение(ссылки перестают работать)
+  event.preventDefault() //чтобы при клике в адреской строке не выводился "#" (не менялась адресная строка)
+  const btnType = event.target.dataset.btn
+  //* присваивается строка дата-атрибута (чтобы далее использовать это значение в методе ".find()" оно преобразовывается в число с помощью "+")
+  const id = +event.target.dataset.id
+  const fruit = fruits.find(f => f.id === id)
 
-    if (btnType === 'price') {
-      priceModal.setContent(`<p>Цена на ${fruit.title}: <strong>${fruit.price} руб.</strong></p>`)
-      priceModal.open()
-    } else if (btnType === 'remove') {
-      $.confirm({
-        title: 'Вы уверены?',
-        content: `<p>Вы удаляете: <strong>${fruit.title}</strong></p>`
-      }).then(() => {
-        fruits = fruits.filter(f => f.id !== id)
-        $.render(fruits, '#fruits')
-        modalGroceryList.setContent(`<div>${fruits.map(fruit => toHtmlForGroceryList(fruit)).join('')}</div>`) //для перечьня продуктов
-      }).catch((err) => console.log(err))
-    }
-  })
+  if (btnType === 'price') {
+    priceModal.setContent(`<p>Цена на ${fruit.title}: <strong>${fruit.price} руб.</strong></p>`)
+    priceModal.open()
+  } else if (btnType === 'remove') {
+    $.confirm({
+      title: 'Вы уверены?',
+      content: `<p>Вы удаляете: <strong>${fruit.title}</strong></p>`
+    }).then(() => {
+      fruits = fruits.filter(f => f.id !== id)
+      $.render(fruits, '#fruits')
+      modalGroceryList.setContent(`<div>${fruits.map(fruit => toHtmlForGroceryList(fruit)).join('')}</div>`) //для перечьня продуктов
+    }).catch((err) => console.log(err))
+  }
+})
 
-  $.render(fruits, '#fruits')
-}
+$.render(fruits, '#fruits')
 
 //*****************  список продуктов  *********************** */
 const toHtmlForGroceryList = fruit => `
@@ -79,8 +77,6 @@ const modalGroceryList = $.modal({
   ]
 })
 
-if (document.getElementById('groceryList')) {
-  groceryList.addEventListener('click', event => {
-    modalGroceryList.open()
-  })
-}
+groceryList.addEventListener('click', event => {
+  modalGroceryList.open()
+})
